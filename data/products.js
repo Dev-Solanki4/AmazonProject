@@ -1,5 +1,33 @@
 const products = [
   {
+    id: "s2424e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
+    image: "images/products/s24ultra.jpg",
+    name: "Samsung Galaxy S24 Ultra 5G",
+    rating: {
+      stars: 4.5,
+      count: 189
+    },
+    price: 99999,
+    keywords: [
+      "smartphone",
+      "highend",
+      "camera"
+    ]
+  },{
+    id: "1ope43638ce-6aa0-4b85-b27f-e1d07eb678c6op",
+    image: "images/products/1+pad.png",
+    name: "OnePlus Pad",
+    rating: {
+      stars: 5,
+      count: 249
+    },
+    price: 49999,
+    keywords: [
+      "tablet",
+      "compact laptop",
+      "daily Monitor"
+    ]
+  },{
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
     image: "images/products/athletic-cotton-socks-6-pairs.jpg",
     name: "Black and Gray Athletic Cotton Socks - 6 Pairs",

@@ -79,7 +79,7 @@ products.forEach((product)=>{
 
           <div class="product-spacer"></div>
 
-          <div class="added-to-cart">
+          <div class="added-to-cart js-added-message-${product.id}">
             <img src="images/icons/checkmark.png">
             Added
           </div>
@@ -94,14 +94,25 @@ products.forEach((product)=>{
 let grid = document.querySelector('.products-grid');
 grid.innerHTML = productsHtml;
 
-document.querySelectorAll('.js-add-to-cart')
- .forEach((button)=>{
+let timeoutId;
+
+document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
+    
+    // adding Event listener to every Button
     button.addEventListener('click',()=>{
-        // console.log(`This is Button of item ${index}`);
+
         // dataset is used to give info about all the data attributes added to the HTML element
+        const productId = button.dataset.productId;
+        
+        //Printing the Added Message
+        let message = document.querySelector(`.js-added-message-${productId}`);
+        clearTimeout(timeoutId);
+        message.classList.add('add-to-cart-message');
+        timeoutId = setTimeout(()=>{
+            message.classList.remove('add-to-cart-message');
+        },2000);
         
         // For adding item to the cart with quantity
-        const productId = button.dataset.productId;
         let quantity = Number(document.querySelector(`.js-product-quantity-${productId}`).value);
         let matchingId;
         cart.forEach((item)=>{
@@ -112,9 +123,10 @@ document.querySelectorAll('.js-add-to-cart')
         if(matchingId){
             matchingId.quantity += quantity;
         }else{
-            cart.push({
-                productId : productId,
-                quantity : quantity
+            //Used ShortHand technique
+            cart.push({   
+                productId,     
+                quantity
             })
         }
 
