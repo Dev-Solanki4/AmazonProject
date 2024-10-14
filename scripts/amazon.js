@@ -100,6 +100,7 @@ document.querySelectorAll('.js-add-to-cart')
         // console.log(`This is Button of item ${index}`);
         // dataset is used to give info about all the data attributes added to the HTML element
         
+        // For adding item to the cart with quantity
         const productId = button.dataset.productId;
         let matchingId;
         cart.forEach((item)=>{
@@ -115,6 +116,12 @@ document.querySelectorAll('.js-add-to-cart')
                 quantity : 1
             })
         }
-        console.log(cart);
+
+        // For Updating total Quantities of the cart
+        let totalItems=0;
+        cart.forEach((item)=>{
+            totalItems += item.quantity;
+        })
+        document.querySelector('.js-cart-quantity').innerText = `${totalItems}`;
     })
  });
