@@ -1,39 +1,10 @@
-// let products = [{
-//         image : 'images/products/athletic-cotton-socks-6-pairs.jpg',
-//         name : 'Black and Gray Athletic Cotton Socks - 6 Pairs',
-//         rating :{
-//             stars : 4.5,
-//             count : 87
-//         },
-//         price : 1090 // in cents
-//     },{
-//         image : 'images/products/intermediate-composite-basketball.jpg',
-//         name : 'Intermediate Size Basketball',
-//         rating:{
-//             stars:4,
-//             count:127
-//         },
-//         price:2095
-//     },{
-//         image : 'images/products/adults-plain-cotton-tshirt-2-pack-teal.jpg',
-//         name : 'Adults Plain Cotton T-Shirt - 2 Pack',
-//         rating:{
-//             stars:4.5,
-//             count:56
-//         },
-//         price:799
-//     },{
-//         image:'images/products/black-2-slot-toaster.jpg',
-//         name: '2 Slot Toaster-Black',
-//         rating:{
-//             stars:5,
-//             count:2197
-//         },
-//         price:1899
-//     }
-// ];
+// we need to import the required variables from the script using the import statement
+import {cart} from "../data/cart.js"; // here ".." signifies that we are getting out of the current folder i.e script and then going to the specified path
 
-// This product list is already created in the data folder so we can extract in out HTML first and then will use that in our amazon.js
+// we can rename the import as "import {cart as myCart} from "path" . by which we can avoid conflict in the current file
+
+
+// The product list is already created in the data folder so we can extract in out HTML first and then will use that in our amazon.js
 
 let productsHtml = ``; // This is the accumulator pattern which shows that we are accumulating the html of all products together
 
