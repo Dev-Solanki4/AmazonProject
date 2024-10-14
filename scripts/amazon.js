@@ -1,29 +1,39 @@
-let products = [{
-        image : 'images/products/athletic-cotton-socks-6-pairs.jpg',
-        name : 'Black and Gray Athletic Cotton Socks - 6 Pairs',
-        rating :{
-            stars : 4.5,
-            count : 87
-        },
-        price : 1090 // in cents
-    },{
-        image : 'images/products/intermediate-composite-basketball.jpg',
-        name : 'Intermediate Size Basketball',
-        rating:{
-            stars:4,
-            count:127
-        },
-        price:2095
-    },{
-        image : 'images/products/adults-plain-cotton-tshirt-2-pack-teal.jpg',
-        name : 'Adults Plain Cotton T-Shirt - 2 Pack',
-        rating:{
-            stars:4.5,
-            count:56
-        },
-        price:799
-    }
-];
+// let products = [{
+//         image : 'images/products/athletic-cotton-socks-6-pairs.jpg',
+//         name : 'Black and Gray Athletic Cotton Socks - 6 Pairs',
+//         rating :{
+//             stars : 4.5,
+//             count : 87
+//         },
+//         price : 1090 // in cents
+//     },{
+//         image : 'images/products/intermediate-composite-basketball.jpg',
+//         name : 'Intermediate Size Basketball',
+//         rating:{
+//             stars:4,
+//             count:127
+//         },
+//         price:2095
+//     },{
+//         image : 'images/products/adults-plain-cotton-tshirt-2-pack-teal.jpg',
+//         name : 'Adults Plain Cotton T-Shirt - 2 Pack',
+//         rating:{
+//             stars:4.5,
+//             count:56
+//         },
+//         price:799
+//     },{
+//         image:'images/products/black-2-slot-toaster.jpg',
+//         name: '2 Slot Toaster-Black',
+//         rating:{
+//             stars:5,
+//             count:2197
+//         },
+//         price:1899
+//     }
+// ];
+
+// This product list is already created in the data folder so we can extract in out HTML first and then will use that in our amazon.js
 
 let productsHtml = ``; // This is the accumulator pattern which shows that we are accumulating the html of all products together
 
@@ -74,7 +84,7 @@ products.forEach((product)=>{
             Added
           </div>
 
-          <button class="add-to-cart-button button-primary">
+          <button class="add-to-cart-button button-primary js-add-to-cart" data-product-id="${product.id}">
             Add to Cart
           </button>
         </div>
@@ -83,3 +93,28 @@ products.forEach((product)=>{
 
 let grid = document.querySelector('.products-grid');
 grid.innerHTML = productsHtml;
+
+document.querySelectorAll('.js-add-to-cart')
+ .forEach((button)=>{
+    button.addEventListener('click',()=>{
+        // console.log(`This is Button of item ${index}`);
+        // dataset is used to give info about all the data attributes added to the HTML element
+        
+        const productId = button.dataset.productId;
+        let matchingId;
+        cart.forEach((item)=>{
+            if(productId === item.productId){
+                matchingId = item;
+            }
+        })
+        if(matchingId){
+            matchingId.quantity += 1;
+        }else{
+            cart.push({
+                productId : productId,
+                quantity : 1
+            })
+        }
+        console.log(cart);
+    })
+ });
