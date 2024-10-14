@@ -1,6 +1,6 @@
 // we need to import the required variables from the script using the import statement
 import {cart} from "../data/cart.js"; // here ".." signifies that we are getting out of the current folder i.e script and then going to the specified path
-
+import { products } from "../data/products.js";
 // we can rename the import as "import {cart as myCart} from "path" . by which we can avoid conflict in the current file
 
 
