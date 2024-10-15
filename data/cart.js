@@ -24,4 +24,16 @@ export function addToCart(productId){
             quantity
         })
     }
-  }
+}
+
+export function removeFromCart(productId){
+    const newCart = cart.filter((cartItem)=>{
+        if(cartItem.productId !== productId){
+            return true;
+        }else{
+            return false;
+        }
+    })
+
+    cart = newCart;
+}
