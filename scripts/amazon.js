@@ -1,5 +1,5 @@
 // we need to import the required variables from the script using the import statement
-import {cart} from "../data/cart.js"; // here ".." signifies that we are getting out of the current folder i.e script and then going to the specified path
+import {cart, addToCart} from "../data/cart.js"; // here ".." signifies that we are getting out of the current folder i.e script and then going to the specified path
 import { products } from "../data/products.js";
 // we can rename the import as "import {cart as myCart} from "path" . by which we can avoid conflict in the current file
 
@@ -68,45 +68,39 @@ grid.innerHTML = productsHtml;
 let timeoutId;
 
 document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
-    
-    // adding Event listener to every Button
-    button.addEventListener('click',()=>{
+  
+  // adding Event listener to every Button
+  button.addEventListener('click',()=>{
 
-        // dataset is used to give info about all the data attributes added to the HTML element
+    // dataset is used to give info about all the data attributes added to the HTML element
         const productId = button.dataset.productId;
         
         //Printing the Added Message
-        let message = document.querySelector(`.js-added-message-${productId}`);
-        clearTimeout(timeoutId);
-        message.classList.add('add-to-cart-message');
-        timeoutId = setTimeout(()=>{
-            message.classList.remove('add-to-cart-message');
-        },2000);
+        message(productId);
         
         // For adding item to the cart with quantity
-        let quantity = Number(document.querySelector(`.js-product-quantity-${productId}`).value);
-        let matchingId;
-        cart.forEach((item)=>{
-            if(productId === item.productId){
-                matchingId = item;
-            }
-        })
-        if(matchingId){
-            matchingId.quantity += quantity;
-        }else{
-            //Used ShortHand technique
-            cart.push({   
-                productId,     
-                quantity
-            })
-        }
+        addToCart(productId);
 
         // For Updating total Quantities of the cart
-        let totalItems=0;
-        cart.forEach((item)=>{
-            totalItems += item.quantity;
-        })
-        document.querySelector('.js-cart-quantity').innerText = `${totalItems}`;
+        cartQuantity();
         console.log(cart);
-    })
- });
+      })
+    });
+
+
+    function message(productId){
+      let message = document.querySelector(`.js-added-message-${productId}`);
+            clearTimeout(timeoutId);
+            message.classList.add('add-to-cart-message');
+            timeoutId = setTimeout(()=>{
+                message.classList.remove('add-to-cart-message');
+            },2000);
+    }
+    
+    function cartQuantity(){
+      let totalItems=0;
+      cart.forEach((item)=>{
+          totalItems += item.quantity;
+      })
+      document.querySelector('.js-cart-quantity').innerText = `${totalItems}`;
+    }
