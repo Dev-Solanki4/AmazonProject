@@ -1,6 +1,7 @@
 // we need to import the required variables from the script using the import statement
 import {cart, addToCart} from "../data/cart.js"; // here ".." signifies that we are getting out of the current folder i.e script and then going to the specified path
 import { products } from "../data/products.js";
+import { formatCurrency } from "./utils/money.js";
 // we can rename the import as "import {cart as myCart} from "path" . by which we can avoid conflict in the current file
 
 
@@ -30,7 +31,7 @@ products.forEach((product)=>{
           </div>
 
           <div class="product-price">
-            $${(product.price/100).toFixed(2)}
+            $${formatCurrency(product.price)}
           </div>
 
           <div class="product-quantity-container">
