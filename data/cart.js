@@ -1,3 +1,5 @@
+import { deliveryOptions } from "./deliveryOptions.js";
+
 export let cart = JSON.parse(localStorage.getItem('cart'))|| [] ;
 
  export function saveToStorage(){
@@ -10,15 +12,17 @@ export function addToCart(productId){
     cart.forEach((item)=>{
         if(productId === item.productId){
             matchingId = item;
+            item.deliveryOptionId = deliveryOptions[0].id; // Default to the first delivery option
         }
-    })
+    });
     if(matchingId){
         matchingId.quantity += quantity;
     }else{
         //Used ShortHand technique
         cart.push({   
-            productId,     
-            quantity
+            productId:productId,     
+            quantity:quantity,
+            deliveryOptionId:deliveryOptions[0].id
         })
     }
     saveToStorage();
