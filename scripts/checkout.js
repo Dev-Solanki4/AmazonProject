@@ -29,14 +29,14 @@ cart.forEach((cartItem)=>{
     });
 
     const deliveryOptionId = cartItem.deliveryOptionId;
-    let deliveryOption;
+    let deliveryOp;
     deliveryOptions.forEach((option)=>{
       if(option.id === deliveryOptionId){
-        deliveryOption = option;
+        deliveryOp = option;
       }
     })
     const today = dayjs();
-    const deliveryDate = today.add(deliveryOption.deliveryDays,'days');
+    const deliveryDate = today.add(deliveryOp.deliveryDays,'days');
     const dateString = deliveryDate.format('dddd, MMMM D');
 
     productList += `
