@@ -148,7 +148,7 @@ document.querySelectorAll('.js-save-link').forEach((link)=>{
   link.addEventListener('click',()=>{
 
     let productId = link.dataset.productId;
-    let matchingId;
+    let matchingId = " ";
 
     // Getting the container for adding/removing css from it
     let container = document.querySelector(`.js-cart-item-container-${productId}`);
@@ -160,22 +160,25 @@ document.querySelectorAll('.js-save-link').forEach((link)=>{
       }
     });
 
-    // Getting the new values for the product
-    let newQuantity = Number(document.querySelector(`.js-quantity-text-${productId}`).value);
+    if(matchingId){
+      // Getting the new values for the product
+      let newQuantity = Number(document.querySelector(`.js-quantity-text-${productId}`).value);
+  
+      //Validation for the input
+      if(newQuantity>=0 && newQuantity<100 && calculateCartQuantity()<=100){
 
-    //Validation for the input
-    if(newQuantity>=0 && newQuantity<100 && calculateCartQuantity()<=100){
-      matchingId.quantity = newQuantity;
-      //Updating the value in HTML
-      document.querySelector('.quantity-label').innerText = `${matchingId.quantity}`;
-  
-      //Removing the class to display the update link and the quantity value
-      container.classList.remove('is-editing-quantity');
-  
-      saveToStorage();
-  
-      //Updating the cartItems
-      cartItems();
+        matchingId.quantity = newQuantity;
+        //Updating the value in HTML
+        document.querySelector('.quantity-label').innerText = `${matchingId.quantity}`;
+    
+        //Removing the class to display the update link and the quantity value
+        container.classList.remove('is-editing-quantity');
+    
+        saveToStorage();
+    
+        //Updating the cartItems
+        cartItems();
+      }
     }
   })
 });
