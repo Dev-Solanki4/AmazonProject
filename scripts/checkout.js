@@ -4,6 +4,7 @@ import { formatCurrency } from "./utils/money.js"; // here './' represents stay 
 
 let productList = ``;
 let items = 0;
+
 cart.forEach((cartItem)=>{
 
     let productId = cartItem.productId;
@@ -98,6 +99,9 @@ cart.forEach((cartItem)=>{
 // Used to print the cart Products
 document.querySelector('.js-order-summary').innerHTML = productList;
 
+// console.log(cartItems());
+cartItems();
+
 // Collecting all the delete links from the products in cart
 document.querySelectorAll('.js-delete-link').forEach((link)=>{
     // adding listener into them
@@ -112,5 +116,16 @@ document.querySelectorAll('.js-delete-link').forEach((link)=>{
         // removing the product from the cart Item display  
         container.remove();
 
+        //Update total items in cart
+        cartItems();
+
     })
 });
+
+function cartItems(){
+  let totalItem = 0;
+  cart.forEach((item)=>{
+    totalItem+=item.quantity;
+  })
+  document.querySelector('.js-total-item').innerText = `${totalItem} items`;
+}

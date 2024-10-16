@@ -68,6 +68,8 @@ grid.innerHTML = productsHtml;
 
 let timeoutId;
 
+cartQuantity();
+
 document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
   
   // adding Event listener to every Button
