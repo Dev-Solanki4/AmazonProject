@@ -2,6 +2,7 @@
 import {cart, addToCart} from "../data/cart.js"; // here ".." signifies that we are getting out of the current folder i.e script and then going to the specified path
 import { products } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
+import { calculateCartQuantity } from "../data/cart.js";
 // we can rename the import as "import {cart as myCart} from "path" . by which we can avoid conflict in the current file
 
 
@@ -63,6 +64,7 @@ products.forEach((product)=>{
     `;
 })
 
+
 let grid = document.querySelector('.products-grid');
 grid.innerHTML = productsHtml;
 
@@ -100,10 +102,7 @@ document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
             },2000);
     }
     
-    function cartQuantity(){
-      let totalItems=0;
-      cart.forEach((item)=>{
-          totalItems += item.quantity;
-      })
-      document.querySelector('.js-cart-quantity').innerText = `${totalItems}`;
-    }
+  function cartQuantity(){
+    let displayNoItems = document.querySelector('.js-cart-quantity');
+    displayNoItems.innerText = `${calculateCartQuantity()}`;
+  }

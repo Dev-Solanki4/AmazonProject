@@ -1,6 +1,8 @@
 import {cart,removeFromCart} from "../data/cart.js"
 import { products } from "../data/products.js"
 import { formatCurrency } from "./utils/money.js"; // here './' represents stay in the current folder
+import { calculateCartQuantity } from "../data/cart.js";
+import { saveToStorage } from "../data/cart.js";
 
 let productList = ``;
 let items = 0;
@@ -38,9 +40,11 @@ cart.forEach((cartItem)=>{
                   <span>
                     Quantity: <span class="quantity-label">${cartItem.quantity}</span>
                   </span>
-                  <span class="update-quantity-link link-primary">
+                  <span class="update-quantity-link link-primary js-update-link" data-product-id="${matchingProduct.id}">
                     Update
                   </span>
+                  <input type="text" class="quantity-input js-quantity-text-${matchingProduct.id}" />
+                  <span class="save-quantity-link link-primary js-save-link" data-product-id="${matchingProduct.id}">Save</span>
                   <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${matchingProduct.id}">
                     Delete
                   </span>
@@ -99,7 +103,7 @@ cart.forEach((cartItem)=>{
 // Used to print the cart Products
 document.querySelector('.js-order-summary').innerHTML = productList;
 
-// console.log(cartItems());
+//To load the number of items in cart when the page loads
 cartItems();
 
 // Collecting all the delete links from the products in cart
@@ -122,10 +126,56 @@ document.querySelectorAll('.js-delete-link').forEach((link)=>{
     })
 });
 
+// function to print the number of items in cart
 function cartItems(){
-  let totalItem = 0;
-  cart.forEach((item)=>{
-    totalItem+=item.quantity;
-  })
-  document.querySelector('.js-total-item').innerText = `${totalItem} items`;
+  document.querySelector('.js-total-item').innerText = `${calculateCartQuantity()} items`;
 }
+
+
+// adding listener to the update link
+document.querySelectorAll('.js-update-link').forEach((link)=>{
+  link.addEventListener('click',()=>{
+    let productId = link.dataset.productId;
+
+    let container = document.querySelector(`.js-cart-item-container-${productId}`);
+    container.classList.add('is-editing-quantity');
+  })
+})
+
+
+// functionalities of Save link
+document.querySelectorAll('.js-save-link').forEach((link)=>{
+  link.addEventListener('click',()=>{
+
+    let productId = link.dataset.productId;
+    let matchingId;
+
+    // Getting the container for adding/removing css from it
+    let container = document.querySelector(`.js-cart-item-container-${productId}`);
+
+    // Fetching the product from the cart to update its value
+    cart.forEach((Item)=>{
+      if(Item.productId === productId){
+        matchingId=Item;
+      }
+    });
+
+    // Getting the new values for the product
+    let newQuantity = Number(document.querySelector(`.js-quantity-text-${productId}`).value);
+
+    //Validation for the input
+    if(newQuantity>=0 && newQuantity<100 && calculateCartQuantity()<=100){
+      matchingId.quantity = newQuantity;
+      //Updating the value in HTML
+      document.querySelector('.quantity-label').innerText = `${matchingId.quantity}`;
+  
+      //Removing the class to display the update link and the quantity value
+      container.classList.remove('is-editing-quantity');
+  
+      saveToStorage();
+  
+      //Updating the cartItems
+      cartItems();
+    }
+  })
+});
