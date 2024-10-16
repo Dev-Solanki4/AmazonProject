@@ -1,4 +1,4 @@
-import { cart,removeFromCart } from "../data/cart.js";
+import { cart,removeFromCart,updateDeliveryOption } from "../data/cart.js";
 import { products } from "../data/products.js"
 import { formatCurrency } from "./utils/money.js"; // here './' represents stay in the current folder
 import { calculateCartQuantity } from "../data/cart.js";
@@ -98,9 +98,11 @@ function deliveryOptionsHTML(matchingProduct,cartItem){
 
     // For checking the Radio Button
     const isChecked = option.id === cartItem.deliveryOptionId;
+    // console.log(option.id);
+    // console.log(matchingProduct.id);
 
    html+= `
-      <div class="delivery-option">
+      <div class="delivery-option js-delivery-option" data-product-id="${matchingProduct.id}" data-delivery-option-id="${option.id}">
                   <input type="radio"
                     ${isChecked ? 'checked':''}
                     class="delivery-option-input"
@@ -203,4 +205,22 @@ document.querySelectorAll('.js-save-link').forEach((link)=>{
       }
     }
   })
+});
+
+// Radion buttons
+// console.log(document.querySelectorAll('.js-delivery-option'));
+document.querySelectorAll('.js-delivery-option').forEach((radio)=>{
+  radio.addEventListener('click',()=>{
+    
+    let productId = radio.dataset.productId;
+    let deliveryOptionId = radio.dataset.deliveryOptionId;
+
+    console.log(productId);
+    console.log(deliveryOptionId);
+    console.log(deliveryOptionId);
+    console.log(deliveryOptionId);
+
+    updateDeliveryOption(productId,deliveryOptionId);
+
+  });
 });

@@ -53,10 +53,13 @@ export function calculateCartQuantity(){
 export function updateDeliveryOption(productId,deliveryOptionId){
     let matchingElement;
     cart.forEach((element)=>{
-        if(element.id = productId){
+        if(element.productId === productId){
             matchingElement = element;
         }
     });
-    matchingElement.deliveryOptionId = deliveryOptionId;
-    saveToStorage();
+    if (matchingElement) {
+        matchingElement.deliveryOptionId = deliveryOptionId;
+        console.log("Matching Element DeliveryOtion now : "+matchingElement.deliveryOptionId);
+        saveToStorage();
+    }
 }
