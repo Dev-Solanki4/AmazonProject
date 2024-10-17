@@ -44,10 +44,15 @@ export function removeFromCart(productId){
 
 export function calculateCartQuantity(){
     let totalItems=0;
-      cart.forEach((item)=>{
-          totalItems += item.quantity;
-      })
-       return totalItems;
+    if(cart){
+        cart.forEach((item)=>{
+            totalItems += item.quantity;
+        })
+         return totalItems;
+    }else{
+        totalItems = 0;
+        return totalItems;
+    }
 }
 
 export function updateDeliveryOption(productId,deliveryOptionId){
