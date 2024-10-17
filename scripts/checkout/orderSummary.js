@@ -1,9 +1,10 @@
 import { cart,removeFromCart,updateDeliveryOption } from "../../data/cart.js";
-import { products } from "../../data/products.js"
+import { products,getProduct } from "../../data/products.js"
 import { formatCurrency } from "../utils/money.js"; // here './' represents stay in the current folder
 import { calculateCartQuantity } from "../../data/cart.js";
 import { saveToStorage } from "../../data/cart.js";
-import { deliveryOptions } from "../../data/deliveryOptions.js";
+import { deliveryOptions,getDeliveryOption } from "../../data/deliveryOptions.js";
+import { renderPaymentSummary } from "./paymentSummary.js";
 
 // If we have to code something complex then 1st we have to look for an external library online
 // dayJs is a famous external library using which we can get the current date and time
@@ -20,23 +21,13 @@ export function renderOrderSummary(){
   cart.forEach((cartItem)=>{
 
       let productId = cartItem.productId;
-      let matchingProduct;
-      let cartDeliveryOptionId = cartItem.deliveryOptionId;
-      console.log("cart Item Delivery option "+cartDeliveryOptionId);
-
-      products.forEach((product)=>{
-          if(product.id === productId){
-              matchingProduct = product
-          }
-      });
-
-      const deliveryOptionId = cartItem.deliveryOptionId;
-      let deliveryOp;
-      deliveryOptions.forEach((option)=>{
-        if(option.id === deliveryOptionId){
-          deliveryOp = option;
-        }
-      })
+      
+      // Fetching the whole data of product using cart productId
+      const matchingProduct = getProduct(productId);
+      
+      // Fetching the whole data of delivery using cart deliveryOptionId
+      const deliveryOp = getDeliveryOption(cartItem.deliveryOptionId);
+      
       const today = dayjs();
       const deliveryDate = today.add(deliveryOp.deliveryDays,'days');
       const dateString = deliveryDate.format('dddd, MMMM D');
@@ -146,6 +137,9 @@ export function renderOrderSummary(){
           //Update total items in cart
           cartItems();
 
+          // Rebuild the payment section
+          renderPaymentSummary();
+
       })
   });
 
@@ -200,10 +194,15 @@ export function renderOrderSummary(){
           //Rewriting the html code of the Web Page
           renderOrderSummary();
       
+          //Regenerating the payment Section
+          renderPaymentSummary();
+
+          // Saving items of cart into localStorage
           saveToStorage();
       
           //Updating the cartItems
           cartItems();
+
         }
       }
     })
@@ -219,6 +218,7 @@ export function renderOrderSummary(){
 
       updateDeliveryOption(productId,deliveryOptionId);
       renderOrderSummary();
+      renderPaymentSummary();
 
     });
   });
