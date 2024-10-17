@@ -26,9 +26,23 @@ export function getDeliveryOption(deliveryOptionId){
 }
 
 export function getDeliveryDate(deliveryOp){
-    const today = dayjs();
-    const deliveryDate = today.add(deliveryOp.deliveryDays,'days');
+    let deliveryDate = dayjs();
+    let remainingDays = deliveryOp.deliveryDays;
+
+    //logic for counting deliveryDate while excluding sat/sun
+    while(remainingDays > 0){
+        deliveryDate = deliveryDate.add(1,'day');
+        if(!isWeekend(deliveryDate)){
+            remainingDays--;
+        }
+    }
+
     const dateString = deliveryDate.format('dddd, MMMM D');
 
     return dateString;
+}
+
+function isWeekend(date) {
+    const dayOfWeek = date.format('dddd');
+    return dayOfWeek === 'Saturday' || dayOfWeek === 'Sunday';
 }
