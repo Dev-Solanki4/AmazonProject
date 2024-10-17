@@ -3,8 +3,9 @@ import { products,getProduct } from "../../data/products.js"
 import { formatCurrency } from "../utils/money.js"; // here './' represents stay in the current folder
 import { calculateCartQuantity } from "../../data/cart.js";
 import { saveToStorage } from "../../data/cart.js";
-import { deliveryOptions,getDeliveryOption } from "../../data/deliveryOptions.js";
+import { deliveryOptions,getDeliveryOption,getDeliveryDate } from "../../data/deliveryOptions.js";
 import { renderPaymentSummary } from "./paymentSummary.js";
+import renderCheckoutHeader from "./checkoutHeader.js";
 
 // If we have to code something complex then 1st we have to look for an external library online
 // dayJs is a famous external library using which we can get the current date and time
@@ -27,10 +28,7 @@ export function renderOrderSummary(){
       
       // Fetching the whole data of delivery using cart deliveryOptionId
       const deliveryOp = getDeliveryOption(cartItem.deliveryOptionId);
-      
-      const today = dayjs();
-      const deliveryDate = today.add(deliveryOp.deliveryDays,'days');
-      const dateString = deliveryDate.format('dddd, MMMM D');
+      const dateString = getDeliveryDate(deliveryOp);
 
       productList += `
           <div class="cart-item-container js-cart-item-container-${matchingProduct.id}">
@@ -82,9 +80,7 @@ export function renderOrderSummary(){
     deliveryOptions.forEach((option)=>{
 
       // For Dates
-      const today = dayjs();
-      const deliveryDate = today.add(option.deliveryDays,'days');
-      const dateString = deliveryDate.format('dddd, MMMM D');
+      const dateString = getDeliveryDate(option);
 
       //For Price
       const priceString = option.price === 0 ? 'FREE' : `$${formatCurrency(option.price)}`
@@ -118,7 +114,7 @@ export function renderOrderSummary(){
   document.querySelector('.js-order-summary').innerHTML = productList;
 
   //To load the number of items in cart when the page loads
-  cartItems();
+  renderCheckoutHeader();
 
   // Collecting all the delete links from the products in cart
   document.querySelectorAll('.js-delete-link').forEach((link)=>{
@@ -128,26 +124,21 @@ export function renderOrderSummary(){
           const productId = link.dataset.productId;
           removeFromCart(productId); // function created in cart.js  
 
-          // Fetching the Container of the product to be removed
-          const container = document.querySelector(`.js-cart-item-container-${productId}`);
-
-          // removing the product from the cart Item display  
-          container.remove();
+          // // Fetching the Container of the product to be removed
+          // const container = document.querySelector(`.js-cart-item-container-${productId}`);
+          // // removing the product from the cart Item display  
+          // container.remove();
+          
+          renderOrderSummary();
 
           //Update total items in cart
-          cartItems();
+          renderCheckoutHeader();
 
           // Rebuild the payment section
           renderPaymentSummary();
 
       })
   });
-
-  // function to print the number of items in cart
-  function cartItems(){
-    document.querySelector('.js-total-item').innerText = `${calculateCartQuantity()} items`;
-  }
-
 
   // adding listener to the update link
   document.querySelectorAll('.js-update-link').forEach((link)=>{
@@ -201,7 +192,7 @@ export function renderOrderSummary(){
           saveToStorage();
       
           //Updating the cartItems
-          cartItems();
+          renderCheckoutHeader();
 
         }
       }
