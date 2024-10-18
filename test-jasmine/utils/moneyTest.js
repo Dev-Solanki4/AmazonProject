@@ -1,4 +1,4 @@
-import { formatCurrency } from "../scripts/utils/money.js";
+import { formatCurrency } from "../../scripts/utils/money.js";
 
  // describe() is an inbuilt function of jasmine which is used to provide test suite.
  // It takes 2 parameters 1) will provide name to the suite and other is function which will contain all the tests

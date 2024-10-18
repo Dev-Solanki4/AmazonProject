@@ -1,8 +1,13 @@
 import { deliveryOptions } from "./deliveryOptions.js";
 
-export let cart = JSON.parse(localStorage.getItem('cart'))|| [] ;
+export let cart;
+loadFromStorage();
 
- export function saveToStorage(){
+export function loadFromStorage(){              // Created to run tests in jasmine
+    cart = JSON.parse(localStorage.getItem('cart'))|| [] ;
+}
+
+export function saveToStorage(){
     localStorage.setItem('cart',JSON.stringify(cart));
 }
 
