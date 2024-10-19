@@ -1,5 +1,7 @@
 import { addToCart,cart, loadFromStorage } from "../../data/cart.js";
 
+// It is a type of Unit Test : it is used to test for a single function or method i.e 1 piece of code
+
 // **************************** Important***************************
 // To run these code make changes to the quantity attrbute inside the object in cart . i.e make it static like from quantity:quantity -> quantity:1 and so on
 
