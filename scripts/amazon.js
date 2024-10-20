@@ -1,8 +1,7 @@
 // we need to import the required variables from the script using the import statement
 import {cart, addToCart} from "../data/cart.js"; // here ".." signifies that we are getting out of the current folder i.e script and then going to the specified path
 import { products } from "../data/products.js";
-import { formatCurrency } from "./utils/money.js";
-import { calculateCartQuantity } from "../data/cart.js";
+import {cart as cartClass} from "../../data/cart-class.js";
 // we can rename the import as "import {cart as myCart} from "path" . by which we can avoid conflict in the current file
 
 
@@ -86,11 +85,11 @@ document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
         message(productId);
         
         // For adding item to the cart with quantity
-        addToCart(productId);
+        cartClass.addToCart(productId);
 
         // For Updating total Quantities of the cart
         cartQuantity();
-        console.log(cart);
+        console.log(cartClass.cartItems);
       })
     });
 
@@ -106,5 +105,5 @@ document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
     
   function cartQuantity(){
     let displayNoItems = document.querySelector('.js-cart-quantity');
-    displayNoItems.innerText = `${calculateCartQuantity()}`;
+    displayNoItems.innerText = `${cartClass.calculateCartQuantity()}`;
   }

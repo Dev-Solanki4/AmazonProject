@@ -13,15 +13,7 @@ class Cart {
 	}
 
 	#loadFromStorage() {         // Similarly we can do it here as well      
-		this.cartItems = JSON.parse(localStorage.getItem(this.#localStorageKey)) || [{
-				productId:'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
-				quantity:2,
-				deliveryOptionId:'1'
-		},{
-				productId:'15b6fc6f-327a-4ec4-896f-486349e85a3d',
-				quantity:1,
-				deliveryOptionId:'1'
-		}];
+		this.cartItems = JSON.parse(localStorage.getItem(this.#localStorageKey)) || [];
 	}
 
 	saveToStorage(){
@@ -29,6 +21,7 @@ class Cart {
 	}
 
 	addToCart(productId){
+		let quantity = Number(document.querySelector(`.js-product-quantity-${productId}`).value);   
 		let matchingId;
 		this.cartItems.forEach((item)=>{
 				if(productId === item.productId){
@@ -37,12 +30,12 @@ class Cart {
 				}
 		});
 		if(matchingId){
-				matchingId.quantity += 1;
+				matchingId.quantity += quantity;
 		}else{
 				//Used ShortHand technique
 				this.cartItems.push({   
 						productId:productId,     
-						quantity:1,
+						quantity:quantity,
 						deliveryOptionId:deliveryOptions[0].id
 				})
 		}
@@ -91,14 +84,15 @@ class Cart {
 	}
 }
 
-const cart = new Cart('cart-oop');
-const buisnessCart = new Cart('cart-buisness');
+export let cart = new Cart('cart-class');
 
-cart.addToCart('83d4ca15-0f35-48f5-b7a3-1ea210004f2e');
+// const buisnessCart = new Cart('cart-buisness');
+
+// cart.addToCart('83d4ca15-0f35-48f5-b7a3-1ea210004f2e');
 
 // cart.#localStorageKey;
 // cart.#loadFromStorage();           // We cannot use them here as they are declared as private fields
 
-console.log(cart)
-console.log(buisnessCart);
+// console.log(cart)
+// console.log(buisnessCart);
 

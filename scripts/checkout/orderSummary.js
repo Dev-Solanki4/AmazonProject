@@ -1,8 +1,6 @@
-import { cart,removeFromCart,updateDeliveryOption } from "../../data/cart.js";
-import { products,getProduct } from "../../data/products.js"
+import {cart as cartClass} from "../../data/cart-class.js";
+import { getProduct } from "../../data/products.js"
 import { formatCurrency } from "../utils/money.js"; // here './' represents stay in the current folder
-import { calculateCartQuantity } from "../../data/cart.js";
-import { saveToStorage } from "../../data/cart.js";
 import { deliveryOptions,getDeliveryOption,getDeliveryDate } from "../../data/deliveryOptions.js";
 import { renderPaymentSummary } from "./paymentSummary.js";
 import renderCheckoutHeader from "./checkoutHeader.js";
@@ -19,7 +17,7 @@ export function renderOrderSummary(){
 
   let productList = ``;
 
-  cart.forEach((cartItem)=>{
+  cartClass.cartItems.forEach((cartItem)=>{
 
       let productId = cartItem.productId;
       
@@ -122,7 +120,7 @@ export function renderOrderSummary(){
       link.addEventListener('click',()=>{
 
           const productId = link.dataset.productId;
-          removeFromCart(productId); // function created in cart.js  
+          cartClass.removeFromCart(productId); // function created in cart.js  
 
           // // Fetching the Container of the product to be removed
           // const container = document.querySelector(`.js-cart-item-container-${productId}`);
@@ -162,7 +160,7 @@ export function renderOrderSummary(){
       let container = document.querySelector(`.js-cart-item-container-${productId}`);
 
       // Fetching the product from the cart to update its value
-      cart.forEach((Item)=>{
+      cartClass.cartItems.forEach((Item)=>{
         if(Item.productId === productId){
           matchingId=Item;
         }
@@ -173,7 +171,7 @@ export function renderOrderSummary(){
         let newQuantity = Number(document.querySelector(`.js-quantity-text-${productId}`).value);
     
         //Validation for the input
-        if(newQuantity>=0 && newQuantity<100 && calculateCartQuantity()<=100){
+        if(newQuantity>=0 && newQuantity<100 && cartClass.calculateCartQuantity()<=100){
 
           matchingId.quantity = newQuantity;
           //Updating the value in HTML
@@ -189,7 +187,7 @@ export function renderOrderSummary(){
           renderPaymentSummary();
 
           // Saving items of cart into localStorage
-          saveToStorage();
+          cartClass.saveToStorage();
       
           //Updating the cartItems
           renderCheckoutHeader();
@@ -207,7 +205,7 @@ export function renderOrderSummary(){
       let productId = radio.dataset.productId;
       let deliveryOptionId = radio.dataset.deliveryOptionId;
 
-      updateDeliveryOption(productId,deliveryOptionId);
+      cartClass.updateDeliveryOption(productId,deliveryOptionId);
       renderOrderSummary();
       renderPaymentSummary();
 
