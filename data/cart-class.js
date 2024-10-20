@@ -1,16 +1,19 @@
 import { deliveryOptions } from "./deliveryOptions.js";
 
 class Cart {
+	
 	cartItems = undefined;
-	localStorageKey;          // we can just not write the variable = undefined part and still it will work the same
+
+	// We can place '#' in front of a variable to make it private, but we also need to use the # when we have to use the value as shown on line 11,16,28
+	#localStorageKey;          // we can just not write the variable = undefined part and still it will work the same
 
 	constructor(localStorageKey){
-		this.localStorageKey = localStorageKey;
-		this.loadFromStorage();
+		this.#localStorageKey = localStorageKey;
+		this.#loadFromStorage();
 	}
 
-	loadFromStorage() {              
-		this.cartItems = JSON.parse(localStorage.getItem(this.localStorageKey)) || [{
+	#loadFromStorage() {         // Similarly we can do it here as well      
+		this.cartItems = JSON.parse(localStorage.getItem(this.#localStorageKey)) || [{
 				productId:'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
 				quantity:2,
 				deliveryOptionId:'1'
@@ -22,7 +25,7 @@ class Cart {
 	}
 
 	saveToStorage(){
-		localStorage.setItem(this.localStorageKey,JSON.stringify(this.cartItems));
+		localStorage.setItem(this.#localStorageKey,JSON.stringify(this.cartItems));
 	}
 
 	addToCart(productId){
@@ -92,6 +95,9 @@ const cart = new Cart('cart-oop');
 const buisnessCart = new Cart('cart-buisness');
 
 cart.addToCart('83d4ca15-0f35-48f5-b7a3-1ea210004f2e');
+
+// cart.#localStorageKey;
+// cart.#loadFromStorage();           // We cannot use them here as they are declared as private fields
 
 console.log(cart)
 console.log(buisnessCart);
