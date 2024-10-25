@@ -47,7 +47,14 @@ function renderOrderDetails(){
     document.querySelector('.js-order-grid').innerHTML = html;
 
 }
+
+cartQuantity();
 renderOrderDetails();
+
+function cartQuantity(){
+    let displayNoItems = document.querySelector('.js-cart-quantity');
+    displayNoItems.innerText = `${cart.calculateCartQuantity()}`;
+  }
 
 function orderCartItems(cartItems,orderId){
     
@@ -97,10 +104,9 @@ document.querySelectorAll('.js-buy-again').forEach((button)=>{
         let productId = button.dataset.productId;
         let orderId = button.dataset.orderId;
 
-        // Update the order
-
-
-
+        // Update the cart
+        cart.addSingleProductToCart(productId);
+        cartQuantity();
     })
 
 })

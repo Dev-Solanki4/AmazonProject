@@ -20,6 +20,11 @@ class Cart {
 		localStorage.setItem(this.#localStorageKey,JSON.stringify(this.cartItems));
 	}
 
+	deleteCart(){
+		this.cartItems = [];
+		this.saveToStorage();
+	}
+
 	addToCart(productId){
 		let quantity = Number(document.querySelector(`.js-product-quantity-${productId}`).value);   
 		let matchingId;
@@ -36,6 +41,27 @@ class Cart {
 				this.cartItems.push({   
 						productId:productId,     
 						quantity:quantity,
+						deliveryOptionId:deliveryOptions[0].id
+				})
+		}
+		this.saveToStorage();
+	}
+
+	addSingleProductToCart(productId){
+		let matchingId;
+		this.cartItems.forEach((item)=>{
+				if(productId === item.productId){
+						matchingId = item;
+						item.deliveryOptionId = deliveryOptions[0].id; // Default to the first delivery option
+				}
+		});
+		if(matchingId){
+				matchingId.quantity += 1;
+		}else{
+				//Used ShortHand technique
+				this.cartItems.push({   
+						productId:productId,     
+						quantity:1,
 						deliveryOptionId:deliveryOptions[0].id
 				})
 		}
