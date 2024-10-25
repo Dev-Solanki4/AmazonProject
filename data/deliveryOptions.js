@@ -46,3 +46,12 @@ function isWeekend(date) {
     const dayOfWeek = date.format('dddd');
     return dayOfWeek === 'Saturday' || dayOfWeek === 'Sunday';
 }
+
+export function formatDate(dateString){
+    const date = new Date(dateString);
+    if (isNaN(date)) {
+        console.error("Invalid Date:", dateString);
+        return "";
+    }
+    return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+}
