@@ -1,4 +1,4 @@
-import { orders,updateOrder } from "../data/orders.js";
+import { orders } from "../data/orders.js";
 import { getProduct } from "../data/products.js";
 import { formatDate } from "../data/deliveryOptions.js";
 import { formatCurrency } from "./utils/money.js";
@@ -98,7 +98,7 @@ document.querySelectorAll('.js-buy-again').forEach((button)=>{
         let orderId = button.dataset.orderId;
 
         // Update the order
-        
+
 
 
     })
