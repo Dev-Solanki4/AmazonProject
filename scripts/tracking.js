@@ -1,6 +1,7 @@
 import { getOrder } from "../data/orders.js";
 import { formatDate } from "../data/deliveryOptions.js";
 import { getProduct } from "../data/products.js";
+import { cart } from "../data/cart-class.js";
 
 const url = new URL(window.location.href);
 const orderId = url.searchParams.get('orderId');
@@ -21,9 +22,6 @@ function renderTracking(){
         
     const orderDate = new Date(order.orderTime);
     const estimatedDeliveryDate = new Date(matchingItem.estimatedDeliveryTime);
-    console.log(today);
-    console.log(orderDate);
-    console.log(estimatedDeliveryDate);
 
     const daysSinceOrder = calculateDaysLeft(today, orderDate);
     const totalDeliveryTime = calculateDaysLeft(estimatedDeliveryDate, orderDate);
@@ -32,7 +30,7 @@ function renderTracking(){
         console.error("Total delivery time is zero, cannot calculate progress percentage.");
         return; 
     }
-    let progressPercent = (daysSinceOrder / totalDeliveryTime) *100;
+    const progressPercent = (daysSinceOrder / totalDeliveryTime) * 100;
 
     
     let matchingProduct = getProduct(productId);
@@ -57,13 +55,13 @@ function renderTracking(){
         <img class="product-image" src="${matchingProduct.image}">
 
         <div class="progress-labels-container">
-          <div class="progress-label">
+          <div class="progress-label js-preparing">
             Preparing
           </div>
-          <div class="progress-label current-status">
+          <div class="progress-label js-shipped">
             Shipped
           </div>
-          <div class="progress-label">
+          <div class="progress-label js-delivered">
             Delivered
           </div>
         </div>
@@ -75,6 +73,8 @@ function renderTracking(){
 
     document.querySelector('.js-order-tracking').innerHTML = html;
     console.log(progressPercent);
+    productStatus(progressPercent);
+    cartQuantity();
 }
 renderTracking();
 
@@ -84,6 +84,29 @@ function calculateDaysLeft(date1, date2) {
         return 0; 
     }
     const differenceInMs = date1 - date2;
-    const differenceInDays = differenceInMs / (1000 * 60 * 60 * 24);
+    const differenceInDays = differenceInMs / (100 * 60 * 60 * 24);
     return differenceInDays;
 }
+
+function productStatus(percent){
+  let preparedStatus = document.querySelector('.js-preparing');
+  let shippedStatus = document.querySelector('.js-shipped');
+  let deliveredStatus = document.querySelector('.js-delivered');
+
+  if(percent<=49){
+    preparedStatus.classList.add('current-status');
+  }else if(50 <= percent <= 99){
+    preparedStatus.classList.remove('current-status');
+    shippedStatus.classList.add('current-status');
+  }else{
+    preparedStatus.classList.remove('current-status');
+    shippedStatus.classList.remove('current-status');
+    deliveredStatus.classList.add('current-status');
+  }
+}
+
+function cartQuantity(){
+  let displayNoItems = document.querySelector('.js-cart-quantity');
+  displayNoItems.innerText = `${cart.calculateCartQuantity()}`;
+  console.log(cart.calculateCartQuantity())
+;}
