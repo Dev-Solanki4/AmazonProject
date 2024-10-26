@@ -92,16 +92,20 @@ function productStatus(percent){
   let preparedStatus = document.querySelector('.js-preparing');
   let shippedStatus = document.querySelector('.js-shipped');
   let deliveredStatus = document.querySelector('.js-delivered');
-
-  if(percent<=49){
-    preparedStatus.classList.add('current-status');
-  }else if(50 <= percent <= 99){
-    preparedStatus.classList.remove('current-status');
-    shippedStatus.classList.add('current-status');
-  }else{
+  console.log(percent);
+  console.log(percent >=100);
+  if(percent >= 100){
     preparedStatus.classList.remove('current-status');
     shippedStatus.classList.remove('current-status');
     deliveredStatus.classList.add('current-status');
+  }else if(percent <= 49){
+    preparedStatus.classList.add('current-status');
+    shippedStatus.classList.remove('current-status');
+    deliveredStatus.classList.remove('current-status');
+  }else{
+    preparedStatus.classList.remove('current-status');
+    shippedStatus.classList.add('current-status');
+    deliveredStatus.classList.remove('current-status');
   }
 }
 
