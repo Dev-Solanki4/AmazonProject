@@ -140,7 +140,7 @@ function message(productId){
   function filterProducts(query){
     const search = query.toLowerCase();
     const filtering =  allProducts.filter( product =>{
-      if(product.name.toLowerCase().includes(search)){
+      if(product.name.toLowerCase().includes(search) || product.keywords.includes(search) ){
         return true;
       }else{
         return false;
