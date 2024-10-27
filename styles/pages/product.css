@@ -1,0 +1,107 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    background-color: #f5f5f5;
+}
+
+.product-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 45px); /* Full height minus header height */
+    margin-top: 45px; /* Adjust for header height */
+    background-color: #fff;
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Equal 50-50 split */
+    align-items: center; /* Center content vertically */
+    max-width: 1200px;
+    height: 100%; /* Full height of .product-main */
+    margin: 0 auto;
+}
+
+.product-left, .product-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.product-left {
+    align-items: center; /* Center image horizontally */
+}
+
+.product-image {
+    max-width: 300px;
+    max-height: 300px;
+    border-radius: 8px;
+}
+
+.product-right {
+    padding: 0 40px; /* Adds consistent side padding */
+}
+
+.product-name {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.product-rating-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.product-rating-stars {
+    width: 100px;
+    margin-right: 6px;
+}
+
+.product-rating-count {
+    color: rgb(1, 124, 182);
+    cursor: pointer;
+}
+
+.product-price {
+    font-size: 25px;
+    font-weight: 600;
+    color: #b12704;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.product-quantity {
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.product-quantity select {
+    padding: 5px;
+    font-size: 16px;
+    margin-top: 5px;
+}
+
+.add-to-cart-button, .buy-now-button {
+    font-size: 18px;
+    padding: 12px;
+    margin: 10px 0;
+    width: 80%;
+    border-radius: 25px;
+    cursor: pointer;
+    align-self: center;
+}
+
+.add-to-cart-button {
+    background-color: #ffd814;
+    border: 1px solid #f0c14b;
+}
+
+.buy-now-button {
+    background-color: #ffa41c;
+    border: 1px solid #e47911;
+}

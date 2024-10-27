@@ -13,13 +13,15 @@ let productsHtml = ``; // This is the accumulator pattern which shows that we ar
 products.forEach((product)=>{
     productsHtml += `
     <div class="product-container">
-          <div class="product-image-container">
+          <div class="product-image-container js-product-image" data-product-id="${product.id}">
+          <a target="blank" href="product.html?productId=${product.id}">
             <img class="product-image"
               src="${product.image}">
+          </a>
           </div>
 
           <div class="product-name limit-text-to-2-lines">
-            ${product.name}
+            <a class="productName" target="blank" href="product.html?productId=${product.id}">${product.name}</a>
           </div>
 
           <div class="product-rating-container">

@@ -100,6 +100,11 @@
   margin-bottom: 5px;
 }
 
+.productName{
+  color:black;
+  text-decoration: none;
+}
+
 .product-rating-container {
   display: flex;
   align-items: center;
