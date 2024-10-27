@@ -1,4 +1,5 @@
 import { getProduct } from "../data/products.js";
+import { cart } from "../data/cart-class.js";
 
 function renderProductDetails(){
     const url = new URL(window.location.href);
@@ -36,11 +37,44 @@ function renderProductDetails(){
                         <option value="10">10</option>
                     </select>
                 </div>
-                <button class="add-to-cart-button">Add to Cart</button>
+                <div class="added-to-cart js-added-message">
+                    <img class="added-image" src="images/icons/checkmark.png">
+                    Added
+                </div>
+                <button class="add-to-cart-button js-add-to-cart" data-product-id="${matchingProduct.id}">Add to Cart</button>
                 <button class="buy-now-button">Buy Now</button>
             </div>
     `;
     document.querySelector('.js-content-grid').innerHTML = html;
+    cartQuantity();
     
+
+    let timeoutId;
+    function message(){
+        let message = document.querySelector('.js-added-message');
+        clearTimeout(timeoutId);
+        message.classList.add('add-to-cart-message');
+        timeoutId = setTimeout(()=>{
+            message.classList.remove('add-to-cart-message');
+        },2000);
+    }
+
+    const button = document.querySelector('.js-add-to-cart');
+    button.addEventListener('click',()=>{
+
+        let productId = button.dataset.productId;
+
+        cart.addToCart(productId);
+
+        message();
+
+        cartQuantity();
+    })
+
+    function cartQuantity(){
+        let displayNoItems = document.querySelector('.js-cart-quantity');
+        displayNoItems.innerText = `${cart.calculateCartQuantity()}`;
+    }
+
 }
 renderProductDetails();
